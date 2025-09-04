@@ -1,13 +1,25 @@
 import ReactMarkdown from 'react-markdown';
 import { Card, CardHeader, CardTitle, CardContent } from './ui/card';
 import { Button } from './ui/button';
-import { Download, Eye } from 'lucide-react';
+import { Copy, Download, Eye } from 'lucide-react';
+import { useState, type ChangeEvent, type MouseEventHandler } from 'react';
 
 interface SummaryPreviewProps{
     response: string
 }
 
 const SummaryPreview = ( props: SummaryPreviewProps ) => {
+    const [ copy, setCopy ] = useState<boolean>( false );
+
+
+    const handleCopy = () => {
+        setCopy(true);
+        setTimeout(() => setCopy(false), 1000); // 1 second
+
+        // if you also want to copy something to clipboard:
+        // navigator.clipboard.writeText("your text here");
+    };
+
   return (
         <Card className="border-0 shadow-lg bg-white/70 backdrop-blur-sm">
             <CardHeader>
@@ -17,13 +29,19 @@ const SummaryPreview = ( props: SummaryPreviewProps ) => {
                         <CardTitle className="text-lg text-slate-700">Prévia do Resumo</CardTitle>
                     </div>
                     <div className="flex gap-2">
-                        <Button variant="outline" size="sm">
+                        <Button variant="outline" size="sm" className='hover:cursor-pointer'>
                             <Download className="w-4 h-4 mr-1" />
                             PDF
                         </Button>
-                        <Button variant="outline" size="sm">
+                        <Button variant="outline" size="sm" className='hover:cursor-pointer'>
                             <Download className="w-4 h-4 mr-1" />
                             Word
+                        </Button>
+                        <Button variant="outline" size="sm" className='hover:cursor-pointer'
+                            onClick={ handleCopy }
+                        >
+                            <Copy className="w-4 h-4 mr-1" />
+                            {copy ? "Copiado" : "Copiar"}
                         </Button>
                     </div>
                 </div>
