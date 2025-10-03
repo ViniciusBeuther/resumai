@@ -2,25 +2,43 @@ import ReactMarkdown from 'react-markdown';
 import { Card, CardHeader, CardTitle, CardContent } from './ui/card';
 import { Button } from './ui/button';
 import { Copy, Download, Eye } from 'lucide-react';
-import { useState, type ChangeEvent, type MouseEventHandler } from 'react';
+import { useState, useEffect } from 'react';
+import { copyMarkdownAsRichText } from '@/lib/markdown.utils';
 
-interface SummaryPreviewProps{
-    response: string
+interface SummaryPreviewProps {
+    response: string;
 }
 
-const SummaryPreview = ( props: SummaryPreviewProps ) => {
-    const [ copy, setCopy ] = useState<boolean>( false );
+const SummaryPreview = (props: SummaryPreviewProps) => {
+    const [copied, setCopied] = useState<boolean>(false);
 
+    // Parse the response
+    const parts = props.response.split("|");
+    const title = parts[0] || "";
+    const topic = parts[1] || "";
+    const date = parts[2] || "";
+    const markdownContent = parts[3] || "";
 
-    const handleCopy = () => {
-        setCopy(true);
-        setTimeout(() => setCopy(false), 1000); // 1 second
+    const handleCopy = async () => {
+        console.log('Copy button clicked');
+        console.log('Markdown content:', markdownContent);
 
-        // if you also want to copy something to clipboard:
-        // navigator.clipboard.writeText("your text here");
+        if (!markdownContent || markdownContent.trim() === '') {
+            alert('No content to copy!');
+            return;
+        }
+
+        try {
+            await copyMarkdownAsRichText(markdownContent);
+            setCopied(true);
+            setTimeout(() => setCopied(false), 2000);
+        } catch (error) {
+            console.error('Copy failed:', error);
+            alert(`Failed to copy: ${error}`);
+        }
     };
 
-  return (
+    return (
         <Card className="border-0 shadow-lg bg-white/70 backdrop-blur-sm">
             <CardHeader>
                 <div className="flex items-center justify-between">
@@ -37,11 +55,14 @@ const SummaryPreview = ( props: SummaryPreviewProps ) => {
                             <Download className="w-4 h-4 mr-1" />
                             Word
                         </Button>
-                        <Button variant="outline" size="sm" className='hover:cursor-pointer'
-                            onClick={ handleCopy }
+                        <Button 
+                            variant="outline" 
+                            size="sm" 
+                            className='hover:cursor-pointer'
+                            onClick={handleCopy}
                         >
                             <Copy className="w-4 h-4 mr-1" />
-                            {copy ? "Copiado" : "Copiar"}
+                            {copied ? "Copiado!" : "Copiar"}
                         </Button>
                     </div>
                 </div>
@@ -49,8 +70,8 @@ const SummaryPreview = ( props: SummaryPreviewProps ) => {
             <CardContent>
                 <div className="bg-white p-6 rounded-lg border border-slate-100 min-h-[200px]">
                     <div className="text-center mb-6">
-                        <h2 className="text-2xl font-bold text-slate-800">{props.response.split("|")[0]}</h2>
-                        <p className="text-slate-600">[{props.response.split("|")[1]}] | {props.response.split("|")[2]}</p>
+                        <h2 className="text-2xl font-bold text-slate-800">{title}</h2>
+                        <p className="text-slate-600">[{topic}] | {date}</p>
                     </div>
                     <div className="space-y-4">
                         <div>
@@ -65,7 +86,7 @@ const SummaryPreview = ( props: SummaryPreviewProps ) => {
                                             h2: ({ children }) => <h2 className="text-md font-semibold mb-2 mt-4">{children}</h2>,
                                         }}
                                     >
-                                        {props.response.split("|")[3]}
+                                        {markdownContent}
                                     </ReactMarkdown>
                                 </div>
                             </div>
@@ -74,7 +95,7 @@ const SummaryPreview = ( props: SummaryPreviewProps ) => {
                 </div>
             </CardContent>
         </Card>
-  )
-}
+    );
+};
 
 export default SummaryPreview;

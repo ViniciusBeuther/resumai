@@ -57,9 +57,9 @@ const handleLogIn = async ( ev: any ) => {
     <div className={cn("flex flex-col gap-6", className)} {...props}>
       <Card>
         <CardHeader>
-          <CardTitle>Login to your account</CardTitle>
+          <CardTitle>Entre em sua conta</CardTitle>
           <CardDescription>
-            Enter your email below to login to your account
+            Digite seu email abaixo para fazer login
           </CardDescription>
         </CardHeader>
         <CardContent>
@@ -70,19 +70,19 @@ const handleLogIn = async ( ev: any ) => {
                 <Input
                   id="email"
                   type="email"
-                  placeholder="m@example.com"
+                  placeholder="email@exemplo.com"
                   required
                   onChange={ ( ev: ChangeEvent<HTMLInputElement> ) => setEmail( ev.target.value ) }
                 />
               </div>
               <div className="grid gap-3">
                 <div className="flex items-center">
-                  <Label htmlFor="password">Password</Label>
+                  <Label htmlFor="password">Senha</Label>
                   <a
                     href="#"
                     className="ml-auto inline-block text-sm underline-offset-4 hover:underline"
                   >
-                    Forgot your password?
+                    Esqueceu sua senha?
                   </a>
                 </div>
                 <Input 
@@ -94,20 +94,20 @@ const handleLogIn = async ( ev: any ) => {
               <div className="flex flex-col gap-3">
                 <Button 
                   type="submit" 
-                  className="w-full"
+                  className="w-full hover:cursor-pointer"
                   onClick={ ( ev ) => handleLogIn( ev ) }
                   >
-                  Login
+                  Entrar
                 </Button>
                 <Button variant="outline" className="w-full">
-                  Login with Google
+                  Login com Google
                 </Button>
               </div>
             </div>
             <div className="mt-4 text-center text-sm">
-              Don&apos;t have an account?{" "}
+              Nao tem uma conta?{" "}
               <a href="#" className="underline underline-offset-4">
-                Sign up
+                Registrar-se
               </a>
             </div>
           </form>

@@ -17,7 +17,9 @@ import Chat from '@/components/Chat';
 
 interface ISummaryConfig {
     useBullets: boolean,
-    detailLevel: string
+    detailLevel: string,
+    useEmojis: boolean,
+    useTitleLevels: boolean
 }
 
 const Home = () => {
@@ -29,6 +31,8 @@ const Home = () => {
     const [abstractionLevel, setAbstractionLevel] = useState<string>('detailed');
     const [summaryMd, setSummaryMd] = useState<string>("");
     const [refreshMessages, setRefreshMessages] = useState<boolean>(false);
+    const [useEmojis, setUseEmojis] = useState<boolean>(false);
+    const [useTitleLevels, setUseTitleLevels] = useState<boolean>(false);
     
     // Add resizable state
     const [leftWidth, setLeftWidth] = useState(50); // percentage
@@ -41,21 +45,30 @@ const Home = () => {
             const userId = localStorage.getItem('user_id');
             const configuration: ISummaryConfig = {
                 detailLevel: abstractionLevel,
-                useBullets: useBullets
+                useBullets: useBullets,
+                useEmojis: useEmojis,
+                useTitleLevels: useTitleLevels
             }
 
             const submit = async () => {
+                const fileInput = document.getElementById("file-upload") as HTMLInputElement;
+                const file = fileInput?.files?.[0];
+
+                const formData = new FormData();
+                formData.append( "userId", userId ?? "" );
+                formData.append( "question", inputMessage );
+                formData.append( "configuration", JSON.stringify( configuration ) );
+                
+                if( file )
+                    formData.append( "file", file );
+                
+
                 const res = await fetch(import.meta.env.VITE_API_ASK_URL, {
                     method: 'POST',
                     headers: {
-                        'Content-Type': 'application/json',
                         'Authorization': `Bearer ${token}`
                     },
-                    body: JSON.stringify({
-                        "userId": userId,
-                        "question": inputMessage,
-                        "configuration": configuration
-                    })
+                    body: formData
                 });
 
 
@@ -204,6 +217,10 @@ const Home = () => {
                             setUseBullets={ setUseBullets }
                             abstractionLevel={ abstractionLevel }
                             setAbstractionLevel={ setAbstractionLevel }
+                            setUseEmojis={ setUseEmojis }
+                            useEmojis={ useEmojis }
+                            setUseTitleLevels={ setUseTitleLevels }
+                            useTitleLevels={ useTitleLevels }
                         />
                     </div>
 

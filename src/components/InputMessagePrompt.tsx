@@ -1,15 +1,15 @@
 import React from 'react'
 import { Button } from './ui/button';
 import { Textarea } from './ui/textarea';
-import { Send } from 'lucide-react';
+import { Paperclip, Send } from 'lucide-react';
 
-interface IInputMessageProps{
+interface IInputMessageProps {
     inputMessage: string, // message state in textbox
-    setInputMessage: React.Dispatch< React.SetStateAction<string> >; // set state method to update message value
+    setInputMessage: React.Dispatch<React.SetStateAction<string>>; // set state method to update message value
     onSubmitMessage: () => void // function used when the submit button is pressed
 }
 
-const InputMessagePrompt = ( { inputMessage, setInputMessage, onSubmitMessage } : IInputMessageProps ) => {
+const InputMessagePrompt = ({ inputMessage, setInputMessage, onSubmitMessage }: IInputMessageProps) => {
     return (
         <div>
             <div className="flex gap-2 items-center">
@@ -38,6 +38,25 @@ const InputMessagePrompt = ( { inputMessage, setInputMessage, onSubmitMessage } 
                 >
                     <Send className="w-4 h-4" />
                 </Button>
+                <Button
+                    asChild
+                    type="button"
+                    className="bg-gradient-to-r from-teal-500 to-blue-500 
+                   hover:from-teal-600 hover:to-blue-600 px-6"
+                >
+                    <label htmlFor="file-upload" className="cursor-pointer">
+                        <Paperclip className="w-4 h-4" />
+                    </label>
+                </Button>
+
+                {/* Hidden input */}
+                <input
+                    id="file-upload"
+                    type="file"
+                    className="hidden"
+                    onChange={(e) => console.log(e.target.files)}
+                />
+
             </div>
         </div>
     )
