@@ -20,7 +20,7 @@ export function LoginForm({
   const [email, setEmail] = useState<string>( "" );
   const [password, setPassword] = useState<string>( "" );
   const navigate = useNavigate();
-  const LOGIN_ENDPOINT = "http://localhost:3001/api/auth/login";
+  const LOGIN_ENDPOINT = import.meta.env.VITE_LOGIN_ENDPOINT;;
   
 const handleLogIn = async ( ev: any ) => {
   ev.preventDefault();
