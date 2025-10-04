@@ -2,7 +2,7 @@ import ReactMarkdown from 'react-markdown';
 import { Card, CardHeader, CardTitle, CardContent } from './ui/card';
 import { Button } from './ui/button';
 import { Copy, Download, Eye } from 'lucide-react';
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import { copyMarkdownAsRichText } from '@/lib/markdown.utils';
 
 interface SummaryPreviewProps {

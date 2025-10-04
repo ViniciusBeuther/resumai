@@ -171,7 +171,8 @@ const copyUsingExecCommand = async (html: string, plainText: string): Promise<vo
   container.style.left = '-999999px';
   container.style.top = '-999999px';
   container.innerHTML = html;
-  
+  const text = plainText;
+  console.log(text);
   document.body.appendChild(container);
   
   try {

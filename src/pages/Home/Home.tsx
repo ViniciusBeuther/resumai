@@ -5,7 +5,6 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import {
     RefreshCw,
     MessageSquare,
-    User,
     Save,
 } from 'lucide-react';
 import Sidebar from '@/components/Sidebar';
