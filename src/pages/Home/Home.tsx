@@ -13,6 +13,7 @@ import SummaryPreview from '@/components/SummaryPreview';
 import InputMessagePrompt from '@/components/InputMessagePrompt';
 import SummaryConfigurations from '@/components/SummaryConfigurations';
 import Chat from '@/components/Chat';
+import { useNavigate } from 'react-router-dom';
 
 interface ISummaryConfig {
     useBullets: boolean,
@@ -32,7 +33,9 @@ const Home = () => {
     const [refreshMessages, setRefreshMessages] = useState<boolean>(false);
     const [useEmojis, setUseEmojis] = useState<boolean>(false);
     const [useTitleLevels, setUseTitleLevels] = useState<boolean>(false);
-    
+    const navigate = useNavigate();
+
+
     // Add resizable state
     const [leftWidth, setLeftWidth] = useState(50); // percentage
 
@@ -69,7 +72,13 @@ const Home = () => {
                     },
                     body: formData
                 });
-
+                
+                if (res.status === 401 || res.status === 403) {
+                    localStorage.removeItem('token');
+                    localStorage.removeItem('user_id');
+                    navigate('/login');
+                    return;
+                }
 
                 const result: IGetMessagesResponse = await res.json()
                 console.log(`question result: ${result.response}`);
