@@ -18,7 +18,7 @@ export async function fetchWithAuth(url: string, options: RequestInit = {}) {
 
   
     // if 401 try to refresh
-    if (response.status === 401) {
+    if (response.status === 401 || response.status === 403) {
         const refreshResponse = await fetch('/api/auth/refresh', {
             method: 'POST',
             credentials: 'include'
