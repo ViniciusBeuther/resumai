@@ -14,6 +14,7 @@ import InputMessagePrompt from '@/components/InputMessagePrompt';
 import SummaryConfigurations from '@/components/SummaryConfigurations';
 import Chat from '@/components/Chat';
 import { useNavigate } from 'react-router-dom';
+import { fetchWithAuth } from '@/lib/utils';
 
 interface ISummaryConfig {
     useBullets: boolean,
@@ -34,7 +35,6 @@ const Home = () => {
     const [useEmojis, setUseEmojis] = useState<boolean>(false);
     const [useTitleLevels, setUseTitleLevels] = useState<boolean>(false);
     const navigate = useNavigate();
-
 
     // Add resizable state
     const [leftWidth, setLeftWidth] = useState(50); // percentage
@@ -65,7 +65,7 @@ const Home = () => {
                     formData.append( "file", file );
                 
 
-                const res = await fetch(import.meta.env.VITE_API_ASK_URL, {
+                const res = await fetchWithAuth(import.meta.env.VITE_API_ASK_URL, {
                     method: 'POST',
                     headers: {
                         'Authorization': `Bearer ${token}`
