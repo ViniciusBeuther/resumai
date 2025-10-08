@@ -36,6 +36,8 @@ const Home = () => {
     const [useTitleLevels, setUseTitleLevels] = useState<boolean>(false);
     const navigate = useNavigate();
 
+    
+
     // Add resizable state
     const [leftWidth, setLeftWidth] = useState(50); // percentage
 
@@ -170,8 +172,8 @@ const Home = () => {
                 <header className="border-b border-white/20 bg-white/30 backdrop-blur-md p-4">
                     <div className="flex items-center justify-between">
                         <div>
-                            <h2 className="text-xl font-semibold text-slate-700">Criador de Resumos de Medicina</h2>
-                            <p className="text-sm text-slate-500">Crie resumos com AI assistence.</p>
+                            <h2 className="text-xl font-semibold text-slate-700">Criador de Resumos</h2>
+                            <p className="text-sm text-slate-500">Resuma conteúdos médicos com IA!</p>
                         </div>
                         <div className="flex items-center gap-2">
                             <Button variant="outline" size="sm">
