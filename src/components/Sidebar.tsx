@@ -1,14 +1,30 @@
 import { Award, BookOpen, Brain, Calendar, Clock, Download, FileText, GraduationCap, HelpCircle, Save, Stethoscope } from 'lucide-react';
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { Badge } from './ui/badge';
 import { Card, CardHeader, CardContent, CardTitle, CardDescription } from './ui/card';
 import { Button } from './ui/button';
 import { Avatar, AvatarImage, AvatarFallback } from './ui/avatar';
+import { useNavigate } from 'react-router-dom';
 
 
 const Sidebar: React.FC = () => {
   const [activeTab, setActiveTab] = useState<string>('profile');
+  const navigate = useNavigate();
 
+  const logout = async () => {
+    try {
+      await fetch( "http://localhost:3001/api/auth/logout", {
+        method: "POST",
+        credentials: "include"
+      } )
+
+      localStorage.removeItem( "token" );
+      localStorage.removeItem( "user_id" );
+      navigate( "/login" );
+    } catch (error) {
+      console.error( "sidebar.logout: error logging out: ", error );
+    }
+  }
 
 return (
     <>
@@ -24,7 +40,7 @@ return (
               <h1 className="text-lg font-bold bg-gradient-to-r from-teal-600 to-blue-600 bg-clip-text text-transparent">
                 MedSummary AI
               </h1>
-              <p className="text-xs text-slate-500">Medical Summary Creator</p>
+              <p className="text-xs text-slate-500">Criador de Resumos Médicos</p>
             </div>
           </div>
           <div className="flex items-center gap-2">
@@ -32,6 +48,7 @@ return (
               <div className="w-2 h-2 bg-green-500 rounded-full mr-1"></div>
               Connected
             </Badge>
+            
           </div>
         </div>
 
@@ -68,25 +85,28 @@ return (
                 <CardHeader className="text-center pb-4">
                   <Avatar className="w-16 h-16 mx-auto mb-3">
                     <AvatarImage src="" />
-                    <AvatarFallback className="bg-gradient-to-br from-teal-400 to-blue-500 text-white text-lg font-semibold">
-                      MS
+                    <AvatarFallback className="bg-gradient-to-br from-pink-400 to-purple-500 text-white text-lg font-semibold">
+                      CG
                     </AvatarFallback>
                   </Avatar>
-                  <CardTitle className="text-lg text-slate-700">Medical Student</CardTitle>
-                  <CardDescription>Year 3 • Internal Medicine</CardDescription>
+                  <CardTitle className="text-lg text-slate-700">Estudante de Medicina</CardTitle>
+                  <Button 
+                    className='bg-red-400 hover:bg-red-500 hover:cursor-pointer'
+                    onClick={() => logout()}
+                  >Sair</Button>
                 </CardHeader>
                 <CardContent className="space-y-3">
                   <div className="flex items-center gap-2 text-sm text-slate-600">
                     <GraduationCap className="w-4 h-4" />
-                    <span>University Medical School</span>
+                    <span>Universidade de Medicina</span>
                   </div>
                   <div className="flex items-center gap-2 text-sm text-slate-600">
                     <Calendar className="w-4 h-4" />
-                    <span>Expected Graduation: 2026</span>
+                    <span>Ano de Formatura: 2028</span>
                   </div>
                   <div className="flex items-center gap-2 text-sm text-slate-600">
                     <Stethoscope className="w-4 h-4" />
-                    <span>Current Rotation: Surgery</span>
+                    <span>Residência desejada: Cirugia</span>
                   </div>
                 </CardContent>
               </Card>
