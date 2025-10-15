@@ -34,6 +34,7 @@ const Home = () => {
     const [refreshMessages, setRefreshMessages] = useState<boolean>(false);
     const [useEmojis, setUseEmojis] = useState<boolean>(false);
     const [useTitleLevels, setUseTitleLevels] = useState<boolean>(false);
+    const [isLoadingResponse, setIsLoadingResponse] = useState<boolean>(false);
     const navigate = useNavigate();
 
     
@@ -45,6 +46,7 @@ const Home = () => {
      * Function to submit the message (content to summarize)
      */
     const onSubmitMessage = async () => {
+        setIsLoadingResponse( true );
         try {
             const userId = localStorage.getItem('user_id');
             const configuration: ISummaryConfig = {
@@ -87,6 +89,8 @@ const Home = () => {
                 setSummaryMd(result.response);
                 setInputMessage("");
                 setRefreshMessages( !refreshMessages );
+
+                setIsLoadingResponse( false );
             }
 
             submit();
@@ -207,7 +211,10 @@ const Home = () => {
                             <CardContent className="flex-1 flex flex-col pb-3 min-h-0">
                                 {/* Messages Container - Takes remaining space and scrolls */}
                                 <div className="flex-1 overflow-hidden mb-4">
-                                    <Chat messages={ messages } />
+                                    <Chat 
+                                        messages={ messages }
+                                        isLoading={ isLoadingResponse }
+                                        />
                                 </div>
 
                                 {/* Message Input - Fixed at bottom */}

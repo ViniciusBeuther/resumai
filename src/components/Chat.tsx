@@ -1,11 +1,13 @@
 import type { IGetMessagesResponse } from '@/types/interfaces'
 import { User } from 'lucide-react'
+import { Spinner } from './ui/spinner'
 
 interface IChatProps {
-    messages: IGetMessagesResponse[]
+    messages: IGetMessagesResponse[],
+    isLoading: boolean
 }
 
-const Chat = ({ messages }: IChatProps) => {
+const Chat = ({ messages, isLoading }: IChatProps) => {
     return (
         <div className="h-64 overflow-y-auto space-y-3 pr-2 border rounded-lg bg-slate-50/50 p-3">
             {messages.length === 0 ? (
@@ -26,6 +28,12 @@ const Chat = ({ messages }: IChatProps) => {
                                 <User className="w-3 h-3 text-white" />
                             </div>
                         </div>
+                            
+                                { isLoading ? 
+                                <div className="p-2 rounded-lg max-w-[75%] bg-gradient-to-r from-teal-500 to-blue-500 text-white">
+                                    <Spinner width={50} height={50} /> 
+                                </div>    
+                                    : null }
 
                         {/* AI Response - Uncomment if you want to show responses in chat */}
                         {/* 
@@ -47,4 +55,4 @@ const Chat = ({ messages }: IChatProps) => {
     )
 }
 
-export default Chat
+export default Chat;
