@@ -1,5 +1,5 @@
 import { Award, BookOpen, Brain, Calendar, Clock, Download, FileText, GraduationCap, HelpCircle, Save, Stethoscope } from 'lucide-react';
-import React, { useEffect, useState } from 'react'
+import React, { useState } from 'react'
 import { Badge } from './ui/badge';
 import { Card, CardHeader, CardContent, CardTitle, CardDescription } from './ui/card';
 import { Button } from './ui/button';
